@@ -6,7 +6,7 @@ machine:
   timezone: Asia/Tokyo
 dependencies:
   override:
-    - npm install -g firebase-tools
+    - npm install -g firebase-tools eslint
 deployment:
   deploy:
     branch: master
