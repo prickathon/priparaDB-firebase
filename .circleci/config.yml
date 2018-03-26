@@ -39,6 +39,7 @@ jobs:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
 
+          
 workflows:
   version: 2
   build_and_deploy:
