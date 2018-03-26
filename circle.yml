@@ -1,6 +1,12 @@
+machine:
+  node:
+    version: 6.3.0
+  post:
+    - npm install -g npm@3
+  timezone: Asia/Tokyo
 dependencies:
   override:
-    - npm install -g firebase-tools@3.10.0
+    - npm install -g firebase-tools
 deployment:
   deploy:
     branch: master
