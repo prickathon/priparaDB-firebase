@@ -9,12 +9,8 @@ references:
   workspace_root: &workspace_root
       /tmp/workspace
 
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-
 jobs:
-  dependencies:
+  deploy:
     <<: *container_config
     steps:
       - checkout
@@ -30,21 +26,6 @@ jobs:
           key: dependency-cache-{{ checksum "functions/package.json" }}
           paths:
             - functions/node_modules
-  deploy:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - checkout
       - run:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
-
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - dependencies
-      - deploy:
-          requires:
-            - dependencies
