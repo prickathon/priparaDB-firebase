@@ -44,4 +44,6 @@ workflows:
   build_and_deploy:
     jobs:
       - dependencies
-      - deploy
+      - deploy:
+        requires:
+            - dependencies
