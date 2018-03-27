@@ -30,7 +30,7 @@
                 
                 let ref = firebase.database().ref();
                 let _this = this;
-                ref.on('value', function(snapshot) {
+                ref.once('value').then(function(snapshot) {
                    console.log(snapshot.val());
                     _this.setState({
                         json: snapshot.val(),
