@@ -9,13 +9,13 @@
         },
         "teams": {
           "$key1": {
-            ".validate": "newData.parent().parent().parent().parent().child('teams').child('hasChild')($key1) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('teams').child($key1).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
         "lives": {
           "$key2": {
-            ".validate": "newData.parent().parent().parent().parent().child('lives').child('hasChild')($key2) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('lives').child($key2).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -32,7 +32,7 @@
         },
         "teams": {
           "$key1": {
-            ".validate": "newData.parent().parent().parent().parent().child('teams').child('hasChild')($key1) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('teams').child($key1).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -49,19 +49,19 @@
         },
         "members": {
           "$key3": {
-            ".validate": "newData.parent().parent().parent().parent().child('characters').child('hasChild')($key3) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('characters').child($key3).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
         "songs": {
           "$key4": {
-            ".validate": "newData.parent().parent().parent().parent().child('songs').child('hasChild')($key4) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('songs').child($key4).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
         "mds": {
           "$key5": {
-            ".validate": "newData.parent().parent().parent().parent().child('mds').child('hasChild')($key5) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('mds').child($key5).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -77,11 +77,11 @@
           ".validate": "newData.isString()"
         },
         "team": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('teams').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('teams').child(newData.val()).val() != null"
         },
         "Lives": {
           "$key2": {
-            ".validate": "newData.parent().parent().parent().parent().child('lives').child('hasChild')($key2) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('lives').child($key2).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -101,7 +101,7 @@
         },
         "episodes": {
           "$key6": {
-            ".validate": "$key6.matches(/^[0-9]+$/) && newData.isString() && newData.parent().parent().parent().parent().child('episodes').child('hasChild')(newData)"
+            ".validate": "$key6.matches(/^[0-9]+$/) && newData.isString() && newData.parent().parent().parent().parent().child('episodes').child(newData.val()).val() != null"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -117,7 +117,7 @@
           ".validate": "newData.isNumber()"
         },
         "series": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('series').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('series').child(newData.val()).val() != null"
         },
         "title": {
           ".validate": "newData.isString()"
@@ -135,7 +135,7 @@
         },
         "coordinates": {
           "$key7": {
-            ".validate": "newData.parent().parent().parent().parent().child('coordinates').child('hasChild')($key7) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('coordinates').child($key7).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
@@ -151,10 +151,10 @@
           ".validate": "newData.isString()"
         },
         "brand": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('brands').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('brands').child(newData.val()).val() != null"
         },
         "Character": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('characters').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('characters').child(newData.val()).val() != null"
         },
         "$other": {
           ".validate": "false"
@@ -169,18 +169,18 @@
         },
         "coordinates": {
           "$key7": {
-            ".validate": "newData.parent().parent().parent().parent().child('coordinates').child('hasChild')($key7) && newData.isBoolean() && newData.val() == true"
+            ".validate": "newData.parent().parent().parent().parent().child('coordinates').child($key7).val() != null && newData.isBoolean() && newData.val() == true"
           },
           ".validate": "newData.hasChildren()"
         },
         "episode": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('episodes').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('episodes').child(newData.val()).val() != null"
         },
         "song": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('songs').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('songs').child(newData.val()).val() != null"
         },
         "team": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('teams').child('hasChild')(newData)"
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('teams').child(newData.val()).val() != null"
         },
         "$other": {
           ".validate": "false"
