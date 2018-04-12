@@ -110,37 +110,37 @@ function isNumberString(val){ return val.matches(/^[0-9]+$/) }
 /* ID */
 
 type SongID extends String{
-  validate() { return root.songs.hasChild(this) }
+  validate() { return root.songs[this] != null }
 }
 
 type CharacterID extends String{
-  validate() { return root.characters.hasChild(this) }
+  validate() { return root.characters[this] != null }
 }
 
 type TeamID extends String{
-  validate() { return root.teams.hasChild(this) }
+  validate() { return root.teams[this] != null }
 }
 
 type MdID extends String{
-  validate() { return root.mds.hasChild(this) }
+  validate() { return root.mds[this] != null }
 }
 
 type SeriesID extends String{
-  validate() { return root.series.hasChild(this) }
+  validate() { return root.series[this] != null }
 }
 
 type EpisodeID extends String{
-  validate() { return root.episodes.hasChild(this) }
+  validate() { return root.episodes[this] != null }
 }
 
 type BrandID extends String{
-  validate() { return root.brands.hasChild(this) }
+  validate() { return root.brands[this] != null }
 }
 
 type CoordinateID extends String{
-  validate() { return root.coordinates.hasChild(this) }
+  validate() { return root.coordinates[this] != null }
 }
 
 type LiveID extends String{
-  validate() { return root.lives.hasChild(this) }
+  validate() { return root.lives[this] != null }
 }
