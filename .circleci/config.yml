@@ -31,16 +31,6 @@ jobs:
           paths:
             - functions/node_modules
       
-      - restore_cache:
-          key: dependency-cache-{{ checksum "public/package.json" }}
-      - run:
-          name: Install packages of public
-          command: cd public && sudo npm install && cd ..
-      - save_cache:
-          key: dependency-cache-{{ checksum "public/package.json" }}
-          paths:
-            - public/node_modules
-      
       - run:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
