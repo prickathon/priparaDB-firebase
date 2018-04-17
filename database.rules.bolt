@@ -6,15 +6,22 @@ path / {
 path /songs/{song_key} is Song;
 
 type Song{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   teams: Map<TeamID, True>
   lives: Map<LiveID, True>
 }
 
-path /characters/{character_key} is Character;
+path /characters/{character_key} is Character{
+  create() { auth != null }
+  update() { auth != null }
+}
 
 type Character{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   teams: Map<TeamID, True>
@@ -23,6 +30,8 @@ type Character{
 path /teams/{team_key} is Team;
 
 type Team{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   members: Map<CharacterID, True>
@@ -33,6 +42,8 @@ type Team{
 path /mds/{md_key} is Md;
 
 type Md{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   team: TeamID
@@ -42,6 +53,8 @@ type Md{
 path /series/{series_key} is Series;
 
 type Series{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   start_at: Date
   end_at: Date
@@ -51,6 +64,8 @@ type Series{
 path /episodes/{episode_key} is Episode;
 
 type Episode{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   number: Number
   series: SeriesID
@@ -60,6 +75,8 @@ type Episode{
 path /brands/{brand_key} is Brand;
 
 type Brand{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   coordinates : Map<CoordinateID, True>
@@ -68,6 +85,8 @@ type Brand{
 path /coordinates/{coordinate_key} is Coordinate;
 
 type Coordinate{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   name: String
   brand: BrandID
@@ -77,6 +96,8 @@ type Coordinate{
 path /lives/{live_key} is Live;
 
 type Live{
+  create() { auth != null }
+  update() { auth != null }
   validate() { isSnakeCase(key()) }
   md: String
   coordinates : Map<CoordinateID, True>
