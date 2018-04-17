@@ -14,10 +14,7 @@ type Song{
   lives: Map<LiveID, True>
 }
 
-path /characters/{character_key} is Character{
-  create() { auth != null }
-  update() { auth != null }
-}
+path /characters/{character_key} is Character;
 
 type Character{
   create() { auth != null }
