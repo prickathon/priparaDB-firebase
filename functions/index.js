@@ -20,6 +20,6 @@ exports.setTeams = functions.database.ref('/characters/{characterId}/teams/{team
     return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
 });
 
-exports.setTeams = functions.database.ref('/characters/{characterId}/teams/{teamId}').onDelete((e) => {
+exports.deleteTeams = functions.database.ref('/characters/{characterId}/teams/{teamId}').onDelete((e) => {
     return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(null);
 });
