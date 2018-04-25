@@ -10,7 +10,12 @@ exports.addCharacter = functions.https.onRequest((req, res) => {
     const name = Object.keys(req.body)[0];
     const info = req.body[name]
     console.log(info);
-    return admin.database().ref('/characters/'+name).set(info).then((snapshot) => {
+    return admin.database().ref('/characters/' + name).set(info).then((snapshot) => {
         return res.redirect(303, snapshot.ref);
     });
+});
+
+
+exports.makeUppercase = functions.database.ref('/characters/{characterId}/teams/{teamId}').onCreate((e) => {
+    return functions.database.ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
 });

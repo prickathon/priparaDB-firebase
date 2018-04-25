@@ -1,65 +1,154 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="ja">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.12.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.12.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.12.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.12.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.12.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+    <title>Realtime Databaseを表示するテスト</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/ripples.min.css">
+    <link rel="stylesheet" href="css/material-wfont.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .square_btn{
+            display: inline-block;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            background: #668ad8;/*ボタン色*/
+            color: #FFF;
+            border-bottom: solid 4px #627295;
+            border-radius: 3px;
+            cursor: pointer;
         }
-      });
-    </script>
-  </body>
+        .square_btn:active {/*ボタンを押したとき*/
+            -ms-transform: translateY(4px);
+            -webkit-transform: translateY(4px);
+            transform: translateY(4px);/*下に動く*/
+            border-bottom: none;/*線を消す*/
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="app">
+
+        <div class="header">
+            <h1 style="display: inline-block">Vue.js Sample</h1>
+            <div style="display: inline-block" class="text-right">
+                <a onclick="auth();" class="square_btn">ログイン</a>
+                <a onclick="signout();" class="square_btn">サインアウト</a>
+                <span id="auth_info"></span>
+            </div>
+        <!-- .header --></div>
+
+        <div class="contents">
+            <form class="form-horizontal" v-on:submit="updateCharacter">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{editUserId == -1 ? "追加" : "編集"}}</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group" v-if="isActiveElements['key']">
+                            <label class="col-md-2 control-label">key</label>
+                            <div class="col-md-10">
+                                <p><input name="key" class="form-control input-lg" type="text" v-model="edit.key" placeholder="key" v-validate="'required|min:4'"></p>
+                                <span v-show="errors.has('key')" class="text-danger v-fade" >{{errors.first('key')}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['name']">
+                            <label class="col-md-2 control-label">name</label>
+                            <div class="col-md-10">
+                                <p><input name="name" class="form-control input-lg" type="text" v-model="edit.name" placeholder="Your name" v-validate="'required|min:4'"></p>
+                                <span v-show="errors.has('name')" class="text-danger v-fade" >{{errors.first('name')}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['teams']">
+                            <label class="col-md-2 control-label">teams</label>
+                            <div class="col-md-10">
+                                <v-select v-model="edit.teams" :options="teamsOptions" multiple></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['lives']">
+                            <label class="col-md-2 control-label">lives</label>
+                            <div class="col-md-10">
+                                <v-select v-model="edit.lives" :options="livesOptions" multiple></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['member']">
+                            <label class="col-md-2 control-label">members</label>
+                            <div class="col-md-10">
+                                <v-select v-model="edit.members" :options="charactersOptions" multiple></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['songs']">
+                            <label class="col-md-2 control-label">songs</label>
+                            <div class="col-md-10">
+                                <v-select v-model="edit.songs" :options="songsOptions" multiple></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="isActiveElements['mds']">
+                            <label class="col-md-2 control-label">mds</label>
+                            <div class="col-md-10">
+                                <v-select v-model="edit.mds" :options="mdsOptions" multiple></v-select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer text-right">
+                        <button class="btn btn-danger v-fade" type="submit" v-on:click="deleteUserById(editUserId)" v-if="editUserId > -1">削除</button>
+                        <button class="btn btn-primary v-fade" type="submit" v-if="true">{{editUserId > -1 ? "更新" : "追加"}}</button>
+                    </div>
+                </div>
+
+            </form>
+        <!-- .contents --></div>
+        <div class="sidebar">
+            <div v-for="user in users" v-on:dblclick="selectUser(user)" :class="'list-item v-fade ' + (user.edit ? 'active' : '')">
+                <dl>
+                    <dt>{{user.name}}</dt>
+                    <dd>{{user.email}}</dd>
+                </dl>
+                <button class="btn-edit" v-on:click="selectUser(user)"><i class="mdi-editor-mode-edit"></i></button>
+                <button class="btn-delete" v-on:click="deleteUser(user)"><i class="mdi-content-clear"></i></button>
+            </div>
+            <div :class="'list-header v-fade'">
+                <h2>Characters</h2>
+            </div>
+            <div v-for="character in characters" v-on:dblclick="selectCharacter(character)" :class="'list-item v-fade ' + (isActive('character',character) ? 'active' : '')">
+                <dl>
+                    <dt>{{character.name}}</dt>
+                    <dd>{{character['.key']}}</dd>
+                </dl>
+                <button class="btn-edit" v-on:click="selectCharacter(character)"><i class="mdi-editor-mode-edit"></i></button>
+                <button class="btn-delete" v-on:click=""><i class="mdi-content-clear"></i></button>
+            </div>
+            <div :class="'list-header v-fade'">
+                <h2>Teams</h2>
+            </div>
+            <div v-for="team in teams" v-on:dblclick="selectTeam(team)" :class="'list-item v-fade ' + (isActive('team',team) ? 'active' : '')">
+                <dl>
+                    <dt>{{team.name}}</dt>
+                    <dd>{{team['.key']}}</dd>
+                </dl>
+                <button class="btn-edit" v-on:click="selectTeam(team)"><i class="mdi-editor-mode-edit"></i></button>
+                <button class="btn-delete" v-on:click=""><i class="mdi-content-clear"></i></button>
+            </div>
+        <!-- .sidebar --></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vee-validate/dist/vee-validate.js"></script>
+    <script src="https://unpkg.com/vue-select@latest"></script>
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/material.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript">
+
+        
+
+	</script>
+</body>
 </html>
