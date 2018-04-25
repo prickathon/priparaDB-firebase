@@ -17,5 +17,5 @@ exports.addCharacter = functions.https.onRequest((req, res) => {
 
 
 exports.makeUppercase = functions.database.ref('/characters/{characterId}/teams/{teamId}').onCreate((e) => {
-    return functions.database.ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
+    return admin.database.ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
 });
