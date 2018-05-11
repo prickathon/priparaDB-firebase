@@ -15,7 +15,29 @@ exports.addCharacter = functions.https.onRequest((req, res) => {
     });
 });
 
-exports.OnSetTeamOfCharacter = functions.database.ref('/characters/{characterId}/teams/{teamId}').onCreate((e) => {
+const createCompatibleFunction = (parent, child, mode) => {
+    switch(mode){
+        case "create":
+            return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
+                return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
+            });
+            break;
+        case "delete":
+            return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
+                return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
+            });
+            break;
+        default:
+            return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
+                return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
+            });
+            break;
+    }
+}
+
+
+//キャラクターとチーム
+exports.OnCreateTeamOfCharacter = functions.database.ref('/characters/{characterId}/teams/{teamId}').onCreate((e) => {
     return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
 });
 
@@ -23,10 +45,16 @@ exports.OnDeleteTeamOfCharacter = functions.database.ref('/characters/{character
     return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(null);
 });
 
-exports.OnSetCharacterOfTeam = functions.database.ref('/teams/{teamId}/members/{characterId}').onCreate((e) => {
+exports.OnCreateCharacterOfTeam = functions.database.ref('/teams/{teamId}/members/{characterId}').onCreate((e) => {
     return admin.database().ref(`/characters/${e.params.characterId}/teams/${e.params.teamId}`).set(true);
 });
 
 exports.OnDeleteCharacterOfTeam = functions.database.ref('/teams/{teamId}/members/{characterId}').onDelete((e) => {
     return admin.database().ref(`/characters/${e.params.characterId}/teams/${e.params.teamId}`).set(null);
 });
+
+//チームとソング
+exports.OnCreateTeamOfSong = createCompatibleFunction( "songs", "teams", "create" )
+exports.OnDeleteTeamOfSong = createCompatibleFunction( "songs", "teams", "delete" )
+exports.OnCreateSongOfTeam = createCompatibleFunction( "teams", "songs", "create" )
+exports.OnDeleteSOngOfTeam = createCompatibleFunction( "teams", "songs", "delete" )
