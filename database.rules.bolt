@@ -32,6 +32,7 @@ type Team{
   validate() { isSnakeCase(key()) }
   name: String
   members: Map<CharacterID, True>
+  characters: Map<CharacterID, True>
   songs: Map<SongID, True>
   mds: Map<MdID, True>
 }

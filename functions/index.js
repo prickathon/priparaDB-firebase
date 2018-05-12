@@ -21,17 +21,14 @@ const createCompatibleFunction = (parent, child, mode) => {
             return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
                 return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
             });
-            break;
         case "delete":
             return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
                 return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
             });
-            break;
         default:
             return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
                 return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
             });
-            break;
     }
 }
 
