@@ -32,6 +32,17 @@ const createCompatibleFunction = (parent, child, mode) => {
     }
 }
 
+//ソングとチーム
+exports.OnCreateTeamOfSong = createCompatibleFunction( "songs", "teams", "create" )
+exports.OnDeleteTeamOfSong = createCompatibleFunction( "songs", "teams", "delete" )
+exports.OnCreateSongOfTeam = createCompatibleFunction( "teams", "songs", "create" )
+exports.OnDeleteSOngOfTeam = createCompatibleFunction( "teams", "songs", "delete" )
+
+//ソングとライブ
+exports.OnCreateLiveOfSong = createCompatibleFunction( "songs", "lives", "create" )
+exports.OnDeleteLiveOfSong = createCompatibleFunction( "songs", "lives", "delete" )
+exports.OnCreateSongOfLive = createCompatibleFunction( "lives", "songs", "create" )
+exports.OnDeleteSOngOfLive = createCompatibleFunction( "lives", "songs", "delete" )
 
 //キャラクターとチーム
 exports.OnCreateTeamOfCharacter = createCompatibleFunction( "characters", "teams", "create" )
@@ -39,15 +50,10 @@ exports.OnDeleteTeamOfCharacter = createCompatibleFunction( "characters", "teams
 exports.OnCreateCharacterOfTeam = createCompatibleFunction( "teams", "characters", "create" )
 exports.OnDeleteCharacterOfTeam = createCompatibleFunction( "teams", "characters", "delete" )
 
-//チームとソング
-exports.OnCreateTeamOfSong = createCompatibleFunction( "songs", "teams", "create" )
-exports.OnDeleteTeamOfSong = createCompatibleFunction( "songs", "teams", "delete" )
-exports.OnCreateSongOfTeam = createCompatibleFunction( "teams", "songs", "create" )
-exports.OnDeleteSOngOfTeam = createCompatibleFunction( "teams", "songs", "delete" )
+//MDとチーム
+exports.OnCreateTeamOfMd = createCompatibleFunction( "mds", "teams", "create" )
+exports.OnDeleteTeamOfMd = createCompatibleFunction( "mds", "teams", "delete" )
+exports.OnCreateMdOfTeam = createCompatibleFunction( "teams", "mds", "create" )
+exports.OnDeleteMdOfTeam = createCompatibleFunction( "teams", "mds", "delete" )
 
-//ライブとソング
-exports.OnCreateLiveOfSong = createCompatibleFunction( "songs", "lives", "create" )
-exports.OnDeleteLiveOfSong = createCompatibleFunction( "songs", "lives", "delete" )
-exports.OnCreateSongOfLive = createCompatibleFunction( "lives", "songs", "create" )
-exports.OnDeleteSOngOfLive = createCompatibleFunction( "lives", "songs", "delete" )
 
