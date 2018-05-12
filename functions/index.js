@@ -44,3 +44,10 @@ exports.OnCreateTeamOfSong = createCompatibleFunction( "songs", "teams", "create
 exports.OnDeleteTeamOfSong = createCompatibleFunction( "songs", "teams", "delete" )
 exports.OnCreateSongOfTeam = createCompatibleFunction( "teams", "songs", "create" )
 exports.OnDeleteSOngOfTeam = createCompatibleFunction( "teams", "songs", "delete" )
+
+//ライブとソング
+exports.OnCreateLiveOfSong = createCompatibleFunction( "songs", "lives", "create" )
+exports.OnDeleteLiveOfSong = createCompatibleFunction( "songs", "lives", "delete" )
+exports.OnCreateSongOfLive = createCompatibleFunction( "lives", "songs", "create" )
+exports.OnDeleteSOngOfLive = createCompatibleFunction( "lives", "songs", "delete" )
+
