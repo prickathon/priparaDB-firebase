@@ -34,21 +34,10 @@ const createCompatibleFunction = (parent, child, mode) => {
 
 
 //キャラクターとチーム
-exports.OnCreateTeamOfCharacter = functions.database.ref('/characters/{characterId}/teams/{teamId}').onCreate((e) => {
-    return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(true);
-});
-
-exports.OnDeleteTeamOfCharacter = functions.database.ref('/characters/{characterId}/teams/{teamId}').onDelete((e) => {
-    return admin.database().ref(`/teams/${e.params.teamId}/members/${e.params.characterId}`).set(null);
-});
-
-exports.OnCreateCharacterOfTeam = functions.database.ref('/teams/{teamId}/members/{characterId}').onCreate((e) => {
-    return admin.database().ref(`/characters/${e.params.characterId}/teams/${e.params.teamId}`).set(true);
-});
-
-exports.OnDeleteCharacterOfTeam = functions.database.ref('/teams/{teamId}/members/{characterId}').onDelete((e) => {
-    return admin.database().ref(`/characters/${e.params.characterId}/teams/${e.params.teamId}`).set(null);
-});
+exports.OnCreateTeamOfCharacter = createCompatibleFunction( "characters", "teams", "create" )
+exports.OnDeleteTeamOfCharacter = createCompatibleFunction( "characters", "teams", "delete" )
+exports.OnCreateCharacterOfTeam = createCompatibleFunction( "teams", "characters", "create" )
+exports.OnDeleteCharacterOfTeam = createCompatibleFunction( "teams", "characters", "delete" )
 
 //チームとソング
 exports.OnCreateTeamOfSong = createCompatibleFunction( "songs", "teams", "create" )
