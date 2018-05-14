@@ -103,14 +103,6 @@
             </form>
         <!-- .contents --></div>
         <div class="sidebar">
-            <div v-for="user in users" v-on:dblclick="selectUser(user)" :class="'list-item v-fade ' + (user.edit ? 'active' : '')">
-                <dl>
-                    <dt>{{user.name}}</dt>
-                    <dd>{{user.email}}</dd>
-                </dl>
-                <button class="btn-edit" v-on:click="selectUser(user)"><i class="mdi-editor-mode-edit"></i></button>
-                <button class="btn-delete" v-on:click="deleteUser(user)"><i class="mdi-content-clear"></i></button>
-            </div>
             <div :class="'list-header v-fade'">
                 <h2>Characters</h2>
             </div>

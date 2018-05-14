@@ -42,30 +42,13 @@ function signout(){
 		el: "#app",
 
 		data: {
-			users: [
-				{
-					id: 0,
-					login: "user1",
-					name: "ユーザ名1",
-					email: "example@mail.com",
-					edit: false
-				},
-				{
-					id: 1,
-					login: "user2",
-					name: "ユーザ名2",
-					email: "example@mail.com",
-					edit: false
-				}				
-			],
-
 			edit: {
 				type: "character",
 				key: "",
 				name: "",
 				teams: [],
 				lives:[],
-				members:[],
+				characters:[],
 				songs:[],
 				mds:[],
 				episodes: [],
@@ -90,14 +73,14 @@ function signout(){
 
 		computed: {
 			isActiveElements: function(){
-				var elements = ['key', 'name', 'member', 'song', 'md',
+				var elements = ['key', 'name', 'song', 'md',
 								'cordinates', 'episode', 'team', 'brand', 'character',
 								'teams', 'lives', 'teams', 'start_at', 'end_at', 'episodes',
 								'number', 'series', 'title'];
 				var types = {
-					team: ['name', 'member', 'song', 'md'],
+					team: ['name', 'characters', 'song', 'md'],
 					live: ['md', 'coordinates', 'episode', 'song', 'team'],
-					coordinate: ['name', 'brand', 'character'],
+					coordinate: ['name', 'brand', 'characters'],
 					songs: ['name', 'teams', 'lives'],
 					character: ['key', 'name', 'teams'],
 					md: ['name', 'team', 'lives'],
@@ -107,6 +90,7 @@ function signout(){
 				}
 				var ret = {};
 				elements.map((element_name)=>{
+					console.log(this.edit.type,"hoge");
 					ret[element_name] = types[this.edit.type].includes(element_name)
 				})
 				return ret;
@@ -165,7 +149,6 @@ function signout(){
 			},
 
 			selectCharacter: function(character){
-				this.edit.type = "character";
 				var data = {};
 				data.key = character[".key"];
 				data.name = character.name;
@@ -173,6 +156,7 @@ function signout(){
 					return Object.keys(character.teams).includes(val.value)
 				});
 				this.setEditer(data);
+				this.edit.type = "character";
 			},
 
 			setEditer: function(data){
@@ -188,24 +172,11 @@ function signout(){
 					name: "",
 					teams: [],
 					lives:[],
-					members:[],
+					characters:[],
 					songs:[],
 					mds:[],
 					episodes: [],
 				}
-			},
-
-			firearray2array: function(far){
-				var ret = Object.keys(far);
-				return ret;
-			},
-
-			array2firearray: function(ar){
-				var ret = {};
-				for(val of ar){
-					ret[val] = true;
-				}
-				return ret
 			},
 
 			isActive: function(type, value){
