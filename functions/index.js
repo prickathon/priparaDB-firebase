@@ -56,4 +56,3 @@ exports.OnDeleteTeamOfMd = createCompatibleFunction( "mds", "teams", "delete" )
 exports.OnCreateMdOfTeam = createCompatibleFunction( "teams", "mds", "create" )
 exports.OnDeleteMdOfTeam = createCompatibleFunction( "teams", "mds", "delete" )
 
-

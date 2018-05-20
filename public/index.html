@@ -41,11 +41,11 @@
         <!-- .header --></div>
 
         <div class="contents">
-            <form class="form-horizontal" v-on:submit="updateCharacter">
+            <form class="form-horizontal" v-on:submit="update">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">{{editUserId == -1 ? "追加" : "編集"}}</h2>
+                        <h2 class="panel-title">追加:{{ edit.type }}</h2>
                     </div>
                     <div class="panel-body">
                         <div class="form-group" v-if="isActiveElements['key']">
@@ -74,10 +74,10 @@
                                 <v-select v-model="edit.lives" :options="livesOptions" multiple></v-select>
                             </div>
                         </div>
-                        <div class="form-group" v-if="isActiveElements['member']">
-                            <label class="col-md-2 control-label">members</label>
+                        <div class="form-group" v-if="isActiveElements['characters']">
+                            <label class="col-md-2 control-label">characters</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.members" :options="charactersOptions" multiple></v-select>
+                                <v-select v-model="edit.characters" :options="charactersOptions" multiple></v-select>
                             </div>
                         </div>
                         <div class="form-group" v-if="isActiveElements['songs']">
@@ -106,24 +106,20 @@
             <div :class="'list-header v-fade'">
                 <h2>Characters</h2>
             </div>
-            <div v-for="character in characters" v-on:dblclick="selectCharacter(character)" :class="'list-item v-fade ' + (isActive('character',character) ? 'active' : '')">
+            <div v-for="character in characters" v-on:click="selectCharacter(character)" :class="'list-item v-fade ' + (isActive('character',character) ? 'active' : '')">
                 <dl>
                     <dt>{{character.name}}</dt>
                     <dd>{{character['.key']}}</dd>
                 </dl>
-                <button class="btn-edit" v-on:click="selectCharacter(character)"><i class="mdi-editor-mode-edit"></i></button>
-                <button class="btn-delete" v-on:click=""><i class="mdi-content-clear"></i></button>
             </div>
             <div :class="'list-header v-fade'">
                 <h2>Teams</h2>
             </div>
-            <div v-for="team in teams" v-on:dblclick="selectTeam(team)" :class="'list-item v-fade ' + (isActive('team',team) ? 'active' : '')">
+            <div v-for="team in teams" v-on:click="selectTeam(team)" :class="'list-item v-fade ' + (isActive('team',team) ? 'active' : '')">
                 <dl>
                     <dt>{{team.name}}</dt>
                     <dd>{{team['.key']}}</dd>
                 </dl>
-                <button class="btn-edit" v-on:click="selectTeam(team)"><i class="mdi-editor-mode-edit"></i></button>
-                <button class="btn-delete" v-on:click=""><i class="mdi-content-clear"></i></button>
             </div>
         <!-- .sidebar --></div>
     </div>

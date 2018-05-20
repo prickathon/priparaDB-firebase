@@ -73,12 +73,12 @@ function signout(){
 
 		computed: {
 			isActiveElements: function(){
-				var elements = ['key', 'name', 'song', 'md',
-								'cordinates', 'episode', 'team', 'brand', 'character',
+				var elements = ['key', 'name', 'song', 'songs', 'mds',
+								'cordinates', 'episode', 'team', 'brand', 'characters',
 								'teams', 'lives', 'teams', 'start_at', 'end_at', 'episodes',
 								'number', 'series', 'title'];
 				var types = {
-					team: ['name', 'characters', 'song', 'md'],
+					team: ['name', 'characters', 'songs', 'mds'],
 					live: ['md', 'coordinates', 'episode', 'song', 'team'],
 					coordinate: ['name', 'brand', 'characters'],
 					songs: ['name', 'teams', 'lives'],
@@ -132,7 +132,59 @@ function signout(){
 
 		methods: {
 
-			updateCharacter: function(e){
+			update: function(e){
+				e.preventDefault();
+				switch(this.edit.type){
+					case "character":
+						var teams = {};
+						for(team of this.edit.teams){
+							teams[team.value] = true;
+						}
+						var val = {
+							name: this.edit.name,
+							teams: teams
+						}
+						firebase.database().ref('characters').child(this.edit.key).update(val);
+						break;
+
+					case "team":
+						var characters = {};
+						for(character of this.edit.characters){
+							characters[character.value] = true;
+						}
+						var songs = {};
+						for(song of this.edit.songs){
+							songs[song.value] = true;
+						}
+						var mds = {};
+						for(md of this.edit.mds){
+							mds[md.value] = true;
+						}
+						var val = {
+							name: this.edit.name,
+							characters: characters,
+							songs: songs,
+							mds: mds
+						}
+						firebase.database().ref('teams').child(this.edit.key).update(val);
+				}
+				
+				this.releaseEditState();
+				this.errors.clear();
+			},
+
+			selectCharacter: function(character){
+				var data = {};
+				data.key = character[".key"];
+				data.name = character.name;
+				data.teams = this.teamsOptions.filter(val => {
+					return Object.keys(character.teams).includes(val.value)
+				});
+				this.setEditer(data);
+				this.edit.type = "character";
+			},
+
+			updateTeam: function(e){
 				e.preventDefault();
 				var teams = {};
 				for(team of this.edit.teams){
@@ -148,15 +200,21 @@ function signout(){
 				this.edit.type = "character";
 			},
 
-			selectCharacter: function(character){
+			selectTeam: function(team){
 				var data = {};
-				data.key = character[".key"];
-				data.name = character.name;
-				data.teams = this.teamsOptions.filter(val => {
-					return Object.keys(character.teams).includes(val.value)
+				data.key = team[".key"];
+				data.name = team.name;
+				data.characters = this.charactersOptions.filter(val => {
+					return Object.keys(team.characters).includes(val.value)
+				});
+				data.songs = this.songsOptions.filter(val => {
+					return Object.keys(team.songs).includes(val.value)
+				});
+				data.mds = this.mdsOptions.filter(val => {
+					return Object.keys(team.mds).includes(val.value)
 				});
 				this.setEditer(data);
-				this.edit.type = "character";
+				this.edit.type = "team";
 			},
 
 			setEditer: function(data){
@@ -167,7 +225,7 @@ function signout(){
 			releaseEditState: function(){
 				this.editUserId = -1;
 				this.edit = {
-					type: "",
+					type: this.edit.type,
 					key: "",
 					name: "",
 					teams: [],
