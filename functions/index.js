@@ -39,10 +39,10 @@ exports.OnCreateSongOfTeam = createCompatibleFunction( "teams", "songs", "create
 exports.OnDeleteSOngOfTeam = createCompatibleFunction( "teams", "songs", "delete" )
 
 //ソングとライブ
-exports.OnCreateLiveOfSong = createCompatibleFunction( "songs", "lives", "create" )
-exports.OnDeleteLiveOfSong = createCompatibleFunction( "songs", "lives", "delete" )
-exports.OnCreateSongOfLive = createCompatibleFunction( "lives", "songs", "create" )
-exports.OnDeleteSOngOfLive = createCompatibleFunction( "lives", "songs", "delete" )
+//exports.OnCreateLiveOfSong = createCompatibleFunction( "songs", "lives", "create" )
+//exports.OnDeleteLiveOfSong = createCompatibleFunction( "songs", "lives", "delete" )
+//exports.OnCreateSongOfLive = createCompatibleFunction( "lives", "songs", "create" )
+//exports.OnDeleteSOngOfLive = createCompatibleFunction( "lives", "songs", "delete" )
 
 //キャラクターとチーム
 exports.OnCreateTeamOfCharacter = createCompatibleFunction( "characters", "teams", "create" )

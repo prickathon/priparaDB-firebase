@@ -55,7 +55,7 @@ type Series{
   validate() { isSnakeCase(key()) }
   start_at: Date
   end_at: Date
-  episodes : Map<NumberString, EpisodeID>
+  episodes : Map<EpisodeID, True>
 }
 
 path /episodes/{episode_key} is Episode;
