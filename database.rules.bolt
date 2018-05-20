@@ -64,6 +64,7 @@ type Episode{
   create() { auth != null }
   update() { auth != null }
   validate() { isSnakeCase(key()) }
+  index() {['number', 'series']}
   number: Number
   series: SeriesID
   title : String
