@@ -60,11 +60,14 @@ type Series{
 
 path /episodes/{episode_key} is Episode;
 
+path /episodes is Episode[] {
+  index() {['number', 'series']}
+}
+
 type Episode{
   create() { auth != null }
   update() { auth != null }
   validate() { isSnakeCase(key()) }
-  index() {['number', 'series']}
   number: Number
   series: SeriesID
   title : String
