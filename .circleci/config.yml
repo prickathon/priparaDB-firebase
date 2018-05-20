@@ -33,20 +33,10 @@ jobs:
       - run:
           name: Build Rule
           command: firebase-bolt database.rules.bolt
-      - run:
-          name: make copy
-          command: |
-            mkdir -p /tmp/workspace
-            cp -r ./ /tmp/workspace
-      - persist_to_workspace:
-          root: *workspace_root
-          paths:
-            - ./ 
 
   deploy:
     <<: *container_config
     steps:
-      - *attach_workspace
       - checkout
       - run:
           name: Install firebase
@@ -61,9 +51,11 @@ jobs:
           paths:
             - functions/node_modules
       - run:
+          name: Build Rule
+          command: firebase-bolt database.rules.bolt
+      - run:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
-
 
 workflows:
   version: 2
