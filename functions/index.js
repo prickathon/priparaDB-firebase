@@ -56,3 +56,8 @@ exports.OnDeleteTeamOfMd = createCompatibleFunction( "mds", "teams", "delete" )
 exports.OnCreateMdOfTeam = createCompatibleFunction( "teams", "mds", "create" )
 exports.OnDeleteMdOfTeam = createCompatibleFunction( "teams", "mds", "delete" )
 
+//シリーズとエピソード
+exports.OnCreateSeriesOfEpisode = createCompatibleFunction( "episodes", "series", "create" )
+exports.OnDeleteSeriesOfEpisode = createCompatibleFunction( "episodes", "series", "delete" )
+exports.OnCreateEpisodeOfSeries = createCompatibleFunction( "series", "episodes", "create" )
+exports.OnDeleteEpisodeOfSeries = createCompatibleFunction( "series", "episodes", "delete" )
