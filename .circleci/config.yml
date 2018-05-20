@@ -21,17 +21,6 @@ jobs:
       - run:
           name: Install firebase
           command: sudo npm install -g firebase-tools firebase-bolt eslint eslint-plugin-promise
-      - run:
-          name: Build Rule
-          command: firebase-bolt database.rules.bolt
-          
-  deploy:
-    <<: *container_config
-    steps:
-      - checkout
-      - run:
-          name: Install firebase
-          command: sudo npm install -g firebase-tools firebase-bolt eslint eslint-plugin-promise
       - restore_cache:
           key: dependency-cache-{{ checksum "functions/package.json" }}
       - run:
@@ -41,11 +30,24 @@ jobs:
           key: dependency-cache-{{ checksum "functions/package.json" }}
           paths:
             - functions/node_modules
-
       - run:
           name: Build Rule
           command: firebase-bolt database.rules.bolt
-      
+      - run:
+          name: make copy
+          command: |
+            mkdir -p /tmp/workspace
+            cp -r ./ /tmp/workspace
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - ./ 
+
+  deploy:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - checkout      
       - run:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
@@ -57,6 +59,8 @@ workflows:
     jobs:
       - build
       - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: master
