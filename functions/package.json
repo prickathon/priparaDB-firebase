@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint .",
     "serve": "firebase serve --only functions",
-    "serve:local": "firebase serve -o 0.0.0.0 -p 9005" ,
+    "serve:local": "firebase serve -o 0.0.0.0 -p 9005",
     "shell": "firebase experimental:functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
