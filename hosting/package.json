@@ -1,0 +1,28 @@
+{
+  "name": "priparaDB-firebase",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:prickathon/priparaDB-firebase.git",
+  "author": "takanakahiko <takanakahiko@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^1.2.1",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.8.1",
+    "pug": "^2.0.3",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "scripts": {
+    "build": "parcel build src/index.js",
+    "serve": "parcel src/index.html"
+  },
+  "dependencies": {
+    "firebase": "^5.0.3",
+    "vee-validate": "^2.0.9",
+    "vue": "^2.5.16",
+    "vue-hot-reload-api": "^2.3.0",
+    "vue-select": "^2.4.0",
+    "vuefire": "^1.4.5"
+  }
+}
