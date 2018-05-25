@@ -23,10 +23,13 @@ jobs:
           key: dependency-cache-{{ checksum "functions/package.json" }}
           paths:
             - functions/node_modules
+      - run:
+          name: Build Rule
+          command: firebase-bolt database.rules.bolt
       - restore_cache:
           key: dependency-cache-{{ checksum "hosting/package.json" }}
       - run:
-          name: Install packages of functions
+          name: Install packages of hosting
           command: cd hosting && yarn install && cd ..
       - save_cache:
           key: dependency-cache-{{ checksum "hosting/package.json" }}
@@ -35,9 +38,6 @@ jobs:
       - run:
           name: Build WebApp
           command: cd hosting && yarn build && cd ..
-      - run:
-          name: Build Rule
-          command: firebase-bolt database.rules.bolt
       - persist_to_workspace:
           root: .
           paths:
