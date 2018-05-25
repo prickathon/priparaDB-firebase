@@ -186,7 +186,6 @@ export default {
       };
       var ret = {};
       elements.map(element_name => {
-        console.log(this.edit.type, "hoge");
         ret[element_name] = types[this.edit.type].includes(element_name);
       });
       return ret;

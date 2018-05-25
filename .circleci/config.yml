@@ -50,6 +50,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Install firebase
+          command: sudo npm install -g firebase-tools firebase-bolt eslint eslint-plugin-promise
+      - run:
           name: Deploy to firebase
           command: firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
 
