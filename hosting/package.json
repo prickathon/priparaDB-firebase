@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "parcel build src/index.js",
+    "build:watch" : "parcel watch src/index.js",
     "serve": "parcel src/index.html"
   },
   "dependencies": {
