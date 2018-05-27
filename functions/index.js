@@ -9,7 +9,7 @@ const createCompatibleFunction = (parent, child, mode) => {
                 return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(true);
             });
         case "delete":
-            return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onCreate((e) => {
+            return functions.database.ref(`/${parent}/{id1}/${child}/{id2}`).onDelete((e) => {
                 return admin.database().ref(`/${child}/${e.params.id2}/${parent}/${e.params.id1}`).set(null);
             });
         default:
