@@ -61,7 +61,7 @@ typings/
 .DS_Store
 database.rules.json
 
-hosting/dist/*
+hosting/dist/**/*
 !hosting/dist/index.html
 !hosting/dist/css/style.css
 .cache/
