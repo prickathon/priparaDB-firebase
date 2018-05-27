@@ -6,11 +6,7 @@
 	<div>
     <div class="header">
             <h1 style="display: inline-block">Vue.js Sample</h1>
-            <div style="display: inline-block" class="text-right">
-                <a onclick="auth();" class="square_btn">ログイン</a>
-                <a onclick="signout();" class="square_btn">サインアウト</a>
-                <span id="auth_info"></span>
-            </div>
+            <login></login>
         <!-- .header --></div>
 
         <div class="contents">
@@ -38,31 +34,31 @@
                         <div class="form-group" v-if="isActiveElements['teams']">
                             <label class="col-md-2 control-label">teams</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.teams" :options="teamsOptions" multiple></v-select>
+                                <fire-select v-model="edit.teams" :options="teams" :label-key="'name'"></fire-select>
                             </div>
                         </div>
                         <div class="form-group" v-if="isActiveElements['lives']">
                             <label class="col-md-2 control-label">lives</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.lives" :options="livesOptions" multiple></v-select>
+                                <fire-select v-model="edit.lives" :options="lives" :label-key="'name'"></fire-select>
                             </div>
                         </div>
                         <div class="form-group" v-if="isActiveElements['characters']">
                             <label class="col-md-2 control-label">characters</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.characters" :options="charactersOptions" multiple></v-select>
+                                <fire-select v-model="edit.characters" :options="characters" :label-key="'name'"></fire-select>
                             </div>
                         </div>
                         <div class="form-group" v-if="isActiveElements['songs']">
                             <label class="col-md-2 control-label">songs</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.songs" :options="songsOptions" multiple></v-select>
+                                <fire-select v-model="edit.songs" :options="songs" :label-key="'name'"></fire-select>
                             </div>
                         </div>
                         <div class="form-group" v-if="isActiveElements['mds']">
                             <label class="col-md-2 control-label">mds</label>
                             <div class="col-md-10">
-                                <v-select v-model="edit.mds" :options="mdsOptions" multiple></v-select>
+                                <fire-select v-model="edit.mds" :options="mds" :label-key="'name'"></fire-select>
                             </div>
                         </div>
 
@@ -100,24 +96,19 @@
 
 <script>
 import Vue from 'vue'
+import FireSelect from "./fire-select.vue"
+import Login from "./login.vue"
+
+import { firebaseApp } from './firebaseApp.js';
 
 export default {
-  
-  props:{
-    firebaseApp : true
+
+  components: {
+    'fire-select' : FireSelect,
+    'login' : Login
   },
 
   data: () => ({
-    
-    teams: [],
-    lives: [],
-    characters: [],
-    songs: [],
-    mds: [],
-    coordinates: [],
-    series: [],
-    episodes: [],
-    brand: [],
 
     edit: {
       type: "character",
@@ -135,21 +126,21 @@ export default {
 
     selected: []
   }),
-/*
+
   firebase: ()=> {
     return{
-      teams: this.firebaseApp.database().ref("teams"),
-      lives: this.firebaseApp.database().ref("lives"),
-      characters: this.firebaseApp.database().ref("characters"),
-      songs: this.firebaseApp.database().ref("songs"),
-      mds: this.firebaseApp.database().ref("mds"),
-      coordinates: this.firebaseApp.database().ref("coordinates"),
-      series: this.firebaseApp.database().ref("series"),
-      episodes: this.firebaseApp.database().ref("episodes"),
-      brand: this.firebaseApp.database().ref("brand")
+      teams: firebaseApp.database().ref("teams"),
+      lives: firebaseApp.database().ref("lives"),
+      characters: firebaseApp.database().ref("characters"),
+      songs: firebaseApp.database().ref("songs"),
+      mds: firebaseApp.database().ref("mds"),
+      coordinates: firebaseApp.database().ref("coordinates"),
+      series: firebaseApp.database().ref("series"),
+      episodes: firebaseApp.database().ref("episodes"),
+      brand: firebaseApp.database().ref("brand")
     }
   },
-*/
+
   computed: {
     isActiveElements: function() {
       var elements = [
@@ -190,36 +181,6 @@ export default {
       });
       return ret;
     },
-    teamsOptions: function() {
-      var val = this.teams;
-      return val.map(function(item) {
-        return { label: item.name, value: item[".key"] };
-      });
-    },
-    livesOptions: function(val) {
-      var val = this.lives;
-      return val.map(function(item) {
-        return { label: item[".key"], value: item[".key"] };
-      });
-    },
-    charactersOptions: function(val) {
-      var val = this.characters;
-      return val.map(function(item) {
-        return { label: item.name, value: item[".key"] };
-      });
-    },
-    songsOptions: function(val) {
-      var val = this.songs;
-      return val.map(function(item) {
-        return { label: item.name, value: item[".key"] };
-      });
-    },
-    mdsOptions: function(val) {
-      var val = this.mds;
-      return val.map(function(item) {
-        return { label: item.name, value: item[".key"] };
-      });
-    }
   },
 
   created: function() {
@@ -236,57 +197,42 @@ export default {
       'brand'
     ]
 
-    ref_names.forEach((val)=>{
+    /*ref_names.forEach((val)=>{
       this.bind(val)
-    })
-
+    })*/
   },
 
   methods: {
     bind: function(path){
-      this.firebaseApp.database().ref(path).on("value",(snapShot)=>{
+      firebaseApp.database().ref(path).on("value",(snapShot)=>{
         const keys = Object.keys(snapShot.val());
         this.$data[path] = keys.map((key)=>Object.assign(snapShot.val()[key],{".key":key}))
+        console.log(this.$data)
       })
     },
     update: function(e) {
       e.preventDefault();
+      console.log(this.edit);
       switch (this.edit.type) {
         case "character":
-          var teams = {};
-          for (team of this.edit.teams) {
-            teams[team.value] = true;
-          }
           var val = {
             name: this.edit.name,
-            teams: teams
+            teams: this.edit.teams
           };
-          this.firebaseApp.database()
+          firebaseApp.database()
             .ref("characters")
             .child(this.edit.key)
             .update(val);
           break;
 
         case "team":
-          var characters = {};
-          for (character of this.edit.characters) {
-            characters[character.value] = true;
-          }
-          var songs = {};
-          for (song of this.edit.songs) {
-            songs[song.value] = true;
-          }
-          var mds = {};
-          for (md of this.edit.mds) {
-            mds[md.value] = true;
-          }
           var val = {
             name: this.edit.name,
-            characters: characters,
-            songs: songs,
-            mds: mds
+            characters: this.edit.characters,
+            songs: this.edit.songs,
+            mds: this.edit.mds
           };
-          this.firebaseApp.database()
+          firebaseApp.database()
             .ref("teams")
             .child(this.edit.key)
             .update(val);
@@ -300,29 +246,8 @@ export default {
       var data = {};
       data.key = character[".key"];
       data.name = character.name;
-      data.teams = this.teamsOptions.filter(val => {
-        return Object.keys(character.teams).includes(val.value);
-      });
+      data.teams = character.teams || [];
       this.setEditer(data);
-      this.edit.type = "character";
-    },
-
-    updateTeam: function(e) {
-      e.preventDefault();
-      var teams = {};
-      for (team of this.edit.teams) {
-        teams[team.value] = true;
-      }
-      var val = {
-        name: this.edit.name,
-        teams: teams
-      };
-      this.firebaseApp.database()
-        .ref("characters")
-        .child(this.edit.key)
-        .update(val);
-      this.releaseEditState();
-      this.errors.clear();
       this.edit.type = "character";
     },
 
@@ -330,15 +255,9 @@ export default {
       var data = {};
       data.key = team[".key"];
       data.name = team.name;
-      data.characters = this.charactersOptions.filter(val => {
-        return Object.keys(team.characters).includes(val.value);
-      });
-      data.songs = this.songsOptions.filter(val => {
-        return Object.keys(team.songs).includes(val.value);
-      });
-      data.mds = this.mdsOptions.filter(val => {
-        return Object.keys(team.mds).includes(val.value);
-      });
+      data.characters = team.characters || [];
+      data.songs = team.songs || [];
+      data.mds = team.mds || [];
       this.setEditer(data);
       this.edit.type = "team";
     },
@@ -355,6 +274,7 @@ export default {
         key: "",
         name: "",
         teams: [],
+        teams2: [],
         lives: [],
         characters: [],
         songs: [],
