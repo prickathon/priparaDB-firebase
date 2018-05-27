@@ -63,5 +63,4 @@ database.rules.json
 
 hosting/dist/**/*
 !hosting/dist/index.html
-!hosting/dist/css/style.css
 .cache/
