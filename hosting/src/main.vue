@@ -331,7 +331,7 @@
             <div :class="'list-header v-fade'">
                 <h2>Characters</h2>
             </div>
-            <div v-for="character in characters" v-on:click="selectCharacter(character)" :class="'list-item v-fade ' + (isActive('character',character) ? 'active' : '')">
+            <div v-for="character in characters" :key="character['.key']" v-on:click="selectCharacter(character)" :class="'list-item v-fade ' + (isActive('character',character) ? 'active' : '')">
                 <dl>
                     <dt>{{character.name}}</dt>
                     <dd>{{character['.key']}}</dd>
@@ -340,7 +340,7 @@
             <div :class="'list-header v-fade'">
                 <h2>Teams</h2>
             </div>
-            <div v-for="team in teams" v-on:click="selectTeam(team)" :class="'list-item v-fade ' + (isActive('team',team) ? 'active' : '')">
+            <div v-for="team in teams" :key="team['.key']" v-on:click="selectTeam(team)" :class="'list-item v-fade ' + (isActive('team',team) ? 'active' : '')">
                 <dl>
                     <dt>{{team.name}}</dt>
                     <dd>{{team['.key']}}</dd>
