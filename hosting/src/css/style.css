@@ -1,0 +1,256 @@
+@charset "utf-8";
+
+::-webkit-scrollbar {
+  width:6px;
+  background:#ddd;
+}
+
+::-webkit-scrollbar-track {
+  border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius:10px;
+  background:#444;
+}
+
+::selection {
+  color:#fff;
+  background-color:#d01623;
+}
+::-moz-selection {
+  color:#fff;
+  background-color:#d01623;
+}
+
+
+/**
+ * ======================================================================
+ * header
+ * ======================================================================
+ */
+.header {
+  position:fixed;
+  z-index:1000;
+  top:0;
+  left:0;
+  box-sizing:border-box;
+  width:100%;
+  height:50px;
+  padding:0 20px;
+  background:#fff;
+  box-shadow:0 0 5px rgba(0,0,0,.2);
+}
+
+.header h1 {
+  margin:0;
+  padding:0;
+  font-size:18px;
+  line-height:50px;
+}
+
+
+
+/**
+ * ======================================================================
+ * sidebar
+ * ======================================================================
+ */
+.sidebar {
+  position:fixed;
+  z-index:999;
+  top:0;
+  left:0;
+  overflow-x:hidden;
+  overflow-y:scroll;
+  box-sizing:border-box;
+  width:300px;
+  height:100%;
+  padding-top:50px;
+  background:#efefef;
+  box-shadow:0 0 10px rgba(0,0,0,.4) inset;
+}
+
+.sidebar .list-header {
+  position:relative;
+  display:block;
+  padding:10px;
+  overflow:hidden;
+  border-bottom:1px solid #ddd;
+}
+
+.sidebar .list-item {
+  position:relative;
+  display:block;
+  padding:20px 40px 20px 20px;
+  overflow:hidden;
+  border-bottom:1px solid #ddd;
+  cursor:pointer;
+}
+
+.sidebar .list-item:hover {
+  text-decoration:none;
+  background:#ddd;
+}
+
+.sidebar .list-item:hover button {
+  right:0;
+}
+
+.sidebar .list-item.active {
+  background:#009587;
+  color:#fff;
+}
+
+.sidebar .list-item.active button:hover {
+  width:30px;
+}
+
+.sidebar .list-item dl {
+  margin:0;
+}
+
+.sidebar .list-item dt {
+  margin:0;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.sidebar .list-item dd {
+  margin:0;
+}
+
+.sidebar .list-item button {
+  position:absolute;
+  right:-30px;
+  display:block;
+  width:30px;
+  height:50%;
+  border:none;
+  color:#fff;
+  font-weight:bold;
+  font-size:20px;
+  text-align:center;
+  cursor:pointer;
+  -webkit-transition:all .1s ease-out;
+        transition:all .1s ease-out;
+}
+
+.sidebar .list-item button:hover {
+  width:32px;
+}
+
+.sidebar .list-item .btn-delete {
+  bottom:0;
+  background:#d01623;
+}
+
+.sidebar .list-item .btn-delete:hover {
+  background:#f40045;
+}
+
+.sidebar .list-item .btn-edit {
+  top:0;
+  background:#92bef4;
+}
+
+.sidebar .list-item .btn-edit:hover {
+  background:#7499c5;
+}
+
+
+
+/**
+ * ======================================================================
+ * footer
+ * ======================================================================
+ */
+.footer {
+  position:fixed;
+  z-index:1000;
+  right:10px;
+  bottom:10px;
+}
+
+.footer .copyright {
+  margin:0;
+  padding:0;
+  color:#aaa;
+  font-size:10px;
+  line-height:1;
+  letter-spacing:.05em;
+}
+
+
+
+/**
+ * ======================================================================
+ * contents
+ * ======================================================================
+ */
+.contents {
+  padding:70px 20px 0 320px;
+}
+
+
+
+
+/**
+ * ======================================================================
+ * transitions
+ * ======================================================================
+ */
+.v-fade {
+  -webkit-transition:all .2s ease-out;
+          transition:all .2s ease-out;
+}
+
+.v-fade.v-enter,
+.v-fade.v-leave {
+  height:0;
+  margin:0;
+  padding:0;
+  opacity:0;
+}
+
+
+
+
+/* RWD */
+@media (max-width:768px) {
+  .sidebar {
+    width:220px;
+  }
+  .contents {
+    padding-left:240px;
+  }
+}
+
+
+@media (max-width:480px) {
+  .sidebar {
+    position:static;
+    width:auto;
+    height:auto;
+    padding:0;
+    box-shadow:none;
+    border-top:1px solid #ddd;
+    overflow:visible;
+  }
+  .sidebar .list-item {
+    padding-right:60px;
+  }
+  .sidebar .list-item button {
+    right:0;
+    width:50px;
+  }
+  .sidebar .list-item button:hover {
+    width:52px;
+  }
+  .sidebar .list-item.active button:hover {
+    width:50px;
+  }
+  .contents {
+    padding:65px 15px 15px 15px;
+  }
+}
