@@ -62,5 +62,4 @@ typings/
 database.rules.json
 
 hosting/dist/**/*
-!hosting/dist/index.html
 .cache/
